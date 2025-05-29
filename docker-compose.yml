@@ -1,0 +1,24 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - chat-network
+
+  backend:
+    image: adchamp/backend-app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_DB_URI=${MONGO_DB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=3000
+    networks:
+      - chat-network
+
+networks:
+  chat-network:
+    driver: bridge
